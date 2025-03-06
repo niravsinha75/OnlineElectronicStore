@@ -1,0 +1,271 @@
+/* ✅ General Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Lighter background */
+    color: #333; /* Darker text for better readability */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ✅ Navbar Styling */
+.navbar {
+    background-color: #343a40 !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 0.75rem 1rem;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #fff !important;
+}
+
+.navbar-nav {
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.navbar-nav .nav-link {
+    color: #fff !important;
+    transition: color 0.3s ease;
+    padding: 0.5rem 1rem;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ddd !important;
+}
+
+/* ✅ Ensure Navbar Works on Mobile */
+@media (max-width: 992px) {
+    .navbar-nav {
+        text-align: center;
+    }
+    .navbar-nav .nav-item {
+        padding: 5px 0;
+    }
+}
+
+/* ✅ Home Page Banner */
+.banner {
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url("../images/background.jpg") no-repeat center center/cover;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* ✅ Responsive Main Content */
+main {
+    padding: 2rem;
+    padding-top: 80px;
+    flex: 1;
+}
+
+/* ✅ Product Grid */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* ✅ Ensure 2 Products Per Row on Mobile */
+@media (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .product-image {
+        height: 180px;
+    }
+}
+
+/* ✅ Product Cards */
+.product-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ✅ Product Images */
+.product-image {
+    width: 100%;
+    height: 220px;
+    object-fit: contain;
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* ✅ Product Details Image */
+.product-details-image-container {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.product-details-image {
+    width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+}
+
+/* ✅ Cart & Order Page */
+.cart-item-image, .order-item-image {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+/* ✅ Align Cart & Order Buttons on Mobile */
+.cart-item-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+@media (max-width: 768px) {
+    .cart-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .cart-item img {
+        margin: 0 auto 15px;
+    }
+
+    .cart-item-actions {
+        align-items: center;
+        text-align: center;
+    }
+}
+
+/* ✅ Ensure Tables Scroll Properly */
+@media (max-width: 768px) {
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* ✅ Checkout Button */
+.checkout-btn {
+    background-color: #28a745;
+    color: #fff;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.checkout-btn:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+/* ✅ Registration Form */
+.register-card-container {
+    max-width: 600px;
+    width: 90%;
+    margin: auto;
+}
+
+.register-card-container .card {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+}
+
+.register-card-container .card-header {
+    background-color: #f0f0f0;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+
+/* ✅ Password Toggle */
+.password-container {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #777;
+}
+
+/* ✅ Responsive Adjustments */
+@media (max-width: 992px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    header nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .register-card-container {
+        width: 100%;
+        padding: 15px;
+    }
+}
+
+/* ✅ Footer */
+footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 1.2rem 0;
+    text-align: center;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+}
+
+@media (max-width: 768px) {
+    footer {
+        font-size: 0.9rem;
+        padding: 1rem 0;
+    }
+}

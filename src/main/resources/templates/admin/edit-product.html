@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Product - Admin</title>
+
+<!-- ✅ Bootstrap & Styles -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/style.css}">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+
+<style>
+/* ✅ Image Preview Styling */
+.image-preview {
+	width: 120px;
+	height: 120px;
+	object-fit: cover;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	margin-top: 10px;
+	display: block;
+}
+</style>
+</head>
+<body>
+
+	<!-- ✅ Navigation Bar -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="/admin/home">Electronics Store
+				Admin</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarNav">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item"><a class="nav-link active"
+						href="/admin/home">Dashboard</a></li>
+					<li class="nav-item"><a class="nav-link active" href="/logout">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- ✅ Edit Product Form -->
+	<div class="container mt-4">
+		<h2>Edit Product</h2>
+
+		<form th:action="@{/admin/edit-product}" method="post"
+			th:object="${product}" enctype="multipart/form-data">
+			<input type="hidden" th:field="*{productId}" />
+
+			<div class="mb-3">
+				<label for="name" class="form-label">Product Name</label> <input
+					type="text" class="form-control" id="name" th:field="*{name}"
+					required>
+			</div>
+
+			<div class="mb-3">
+				<label for="category" class="form-label">Category</label> <select
+					name="categoryId" id="category" class="form-control" required>
+					<option th:each="category : ${categories}"
+						th:value="${category.categoryId}" th:text="${category.name}"
+						th:selected="${product.category != null and product.category.categoryId == category.categoryId}">
+					</option>
+				</select>
+			</div>
+
+			<div class="mb-3">
+				<label for="price" class="form-label">Price (₹)</label> <input
+					type="number" class="form-control" id="price" th:field="*{price}"
+					required>
+			</div>
+
+			<div class="mb-3">
+				<label for="quantity" class="form-label">Stock Quantity</label> <input
+					type="number" class="form-control" id="quantity"
+					th:field="*{quantity}" required>
+			</div>
+
+			<div class="mb-3">
+				<label for="description" class="form-label">Description</label>
+				<textarea class="form-control" id="description"
+					th:field="*{description}" required></textarea>
+			</div>
+
+			<!-- ✅ Existing Product Image Preview -->
+			<div class="mb-3">
+				<label class="form-label">Current Image</label>
+
+				<!-- ✅ Display Image if Available -->
+				<img th:if="${product.image != null}"
+					th:src="@{/product-image/{id}(id=${product.productId})}"
+					class="image-preview" alt="Product Image">
+
+				<!-- ✅ Display Placeholder if Image is Missing -->
+				<p th:unless="${product.image != null}" class="text-muted">No
+					Image Available</p>
+			</div>
+
+
+			<!-- ✅ Upload New Image -->
+			<div class="mb-3">
+				<label for="imageFile" class="form-label">Product Image</label> <input
+					type="file" class="form-control" id="imageFile" name="imageFile"
+					accept="image/*" required>
+			</div>
+
+			<button type="submit" class="btn btn-primary">Update Product</button>
+			<a href="/admin/view-products" class="btn btn-secondary ms-2">Cancel</a>
+		</form>
+	</div>
+
+	<footer class="text-center mt-4">
+		<p>© 2025 Electronics Store</p>
+	</footer>
+
+	<!-- ✅ JavaScript for Image Preview -->
+	<script>
+		function previewImage(event) {
+			var reader = new FileReader();
+			reader.onload = function() {
+				var image = document.getElementById("imagePreview");
+				image.src = reader.result;
+				image.style.display = "block";
+			};
+			reader.readAsDataURL(event.target.files[0]);
+		}
+	</script>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

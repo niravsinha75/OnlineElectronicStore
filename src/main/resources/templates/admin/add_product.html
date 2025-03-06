@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Product - Admin Panel</title>
+
+<!-- ✅ Bootstrap & Styles -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" th:href="@{/css/style.css}">
+
+<style>
+/* ✅ Custom Styling */
+body {
+	background-color: #f8f9fa;
+}
+
+.product-form-container {
+	max-width: 700px;
+	margin: auto;
+	background: #fff;
+	padding: 25px;
+	border-radius: 10px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary, .btn-success {
+	padding: 12px;
+	font-size: 16px;
+	border-radius: 8px;
+}
+
+/* ✅ Responsive Adjustments */
+@media ( max-width : 768px) {
+	.product-form-container {
+		padding: 20px;
+	}
+}
+</style>
+</head>
+<body>
+
+	<!-- ✅ Navigation Bar -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="/admin/home">Electronics Store Admin</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarNav">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item"><a class="nav-link active"
+						href="/admin/home">Dashboard</a></li>
+					<li class="nav-item"><a class="nav-link active" href="/logout">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- ✅ Form Container -->
+	<div class="container mt-5">
+		<div class="product-form-container">
+			<h3 class="text-center mb-4 text-primary">Add New Product</h3>
+
+			<!-- ✅ Success/Error Messages -->
+			<div th:if="${success}" class="alert alert-success text-center"
+				role="alert">
+				<span th:text="${success}"></span>
+			</div>
+			<div th:if="${error}" class="alert alert-danger text-center"
+				role="alert">
+				<span th:text="${error}"></span>
+			</div>
+
+			<!-- ✅ Product Form -->
+			<form action="/admin/saveproduct" method="post"
+				enctype="multipart/form-data">
+
+				<!-- Product Name -->
+				<div class="mb-3">
+					<label for="name" class="form-label">Product Name</label> <input
+						type="text" class="form-control" id="name" name="name"
+						placeholder="Enter product name" required>
+				</div>
+
+				<!-- Description -->
+				<div class="mb-3">
+					<label for="description" class="form-label">Description</label>
+					<textarea class="form-control" id="description" name="description"
+						placeholder="Enter product description" rows="3" required></textarea>
+				</div>
+
+				<!-- Price -->
+				<div class="mb-3">
+					<label for="price" class="form-label">Price (₹)</label> <input
+						type="number" step="0.01" class="form-control" id="price"
+						name="price" placeholder="Enter price" required>
+				</div>
+
+				<!-- Quantity -->
+				<div class="mb-3">
+					<label for="quantity" class="form-label">Stock Quantity</label> <input
+						type="number" class="form-control" id="quantity" name="quantity"
+						placeholder="Enter quantity" required>
+				</div>
+
+				<!-- Category -->
+				<div class="mb-3">
+					<label for="category">Category:</label> <select id="category"
+						class="form-control" required onchange="updateCategoryId()">
+						<option value="" disabled selected>Select a Category</option>
+						<option th:each="category : ${categories}"
+							th:value="${category.categoryId}" th:text="${category.name}"></option>
+					</select>
+
+					<!-- ✅ Hidden Input to Pass Selected Category ID -->
+					<input type="hidden" id="selectedCategoryId" name="categoryId">
+				</div>
+
+				<!-- ✅ Upload New Image -->
+				<div class="mb-3">
+					<label for="imageFile" class="form-label">Product Image</label> <input
+						type="file" class="form-control" id="imageFile" name="imageFile"
+						accept="image/*" required>
+				</div>
+
+				<!-- ✅ Submit Button -->
+				<button type="submit" class="btn btn-success w-100">Add
+					Product</button>
+			</form>
+		</div>
+	</div>
+
+	<!-- ✅ Footer -->
+	<footer class="text-center mt-4">
+		<p>© 2025 Electronics Store</p>
+	</footer>
+
+	<!-- ✅ Bootstrap Script -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- ✅ JavaScript to Handle Category Selection -->
+	<script>
+		function updateCategoryId() {
+			var selectedValue = document.getElementById("category").value;
+			document.getElementById("selectedCategoryId").value = selectedValue;
+		}
+	</script>
+
+</body>
+</html>

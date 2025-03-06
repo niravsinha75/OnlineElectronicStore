@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Home - E-commerce</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ✅ Bootstrap & Styles -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/style.css}">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+/* ✅ Product Grid */
+.product-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 20px;
+	margin-top: 20px;
+}
+
+/* ✅ Product Cards */
+.product-card {
+	background-color: #fff;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	padding: 15px;
+	text-align: center;
+	transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ Product Images */
+.product-image {
+	width: 100%;
+	height: 200px;
+	object-fit: contain;
+	border-radius: 8px;
+	transition: transform 0.3s ease-in-out;
+}
+
+.product-image:hover {
+	transform: scale(1.05);
+}
+
+/* ✅ Ensures responsiveness */
+@media ( max-width : 768px) {
+	.product-grid {
+		grid-template-columns: repeat(2, 1fr); /* 2 products per row */
+	}
+}
+
+@media ( max-width : 576px) {
+	.product-grid {
+		grid-template-columns: repeat(1, 1fr); /* 1 product per row */
+	}
+}
+</style>
+</head>
+<body>
+
+	<!-- ✅ Navigation Bar -->
+	<header>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<div class="container">
+				<a class="navbar-brand" href="#">Electronics Store</a>
+
+				<!-- ✅ Toggle button for mobile -->
+				<button class="navbar-toggler" type="button"
+					data-bs-toggle="collapse" data-bs-target="#navbarNav">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<!-- ✅ Navbar Links -->
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav ms-auto">
+						<li class="nav-item"><a class="nav-link"
+							href="/customer/profile"><i class="fas fa-user"></i> Profile</a></li>
+						<li class="nav-item"><a class="nav-link active"
+							href="/customer/home">Home</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="/customer/cart">Cart</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="/customer/orders">Orders</a></li>
+						<li class="nav-item"><a
+							class="nav-link btn btn-danger text-white" href="/logout">Logout</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+
+	<!-- ✅ Main Content -->
+	<main>
+		<div class="container mt-4">
+			<h2 class="section-title text-center">Featured Products</h2>
+
+			<!-- ✅ Category Filter -->
+			<form action="/customer/home" method="get" class="mb-4">
+				<div class="input-group">
+					<label class="input-group-text" for="categoryFilter">Filter
+						by Category:</label> <select name="categoryId" id="categoryFilter"
+						class="form-select" onchange="this.form.submit()">
+						<option value="">All Categories</option>
+						<option th:each="category : ${categories}"
+							th:value="${category.categoryId}" th:text="${category.name}"
+							th:selected="${selectedCategory != null and selectedCategory == category.categoryId}">
+						</option>
+					</select>
+				</div>
+			</form>
+
+			<!-- ✅ Product Grid -->
+			<div class="product-grid">
+				<div th:each="product : ${products}" class="product-card">
+					<a th:href="@{/customer/product/{id}(id=${product.productId})}"
+						class="product-link"> <!-- ✅ Display image from database --> <img
+						th:if="${product.image != null}"
+						th:src="@{/product-image/{id}(id=${product.productId})}"
+						class="product-image" alt="Product Image"> <!-- ✅ Show Placeholder if No Image -->
+						<span th:unless="${product.image != null}">No Image</span>
+					</a>
+					<div class="card-body">
+						<a th:href="@{/customer/product/{id}(id=${product.productId})}"
+							class="product-name-link">
+							<h5 class="card-title product-name" th:text="${product.name}"></h5>
+						</a>
+						<p class="card-text product-price">
+							Price: ₹<span th:text="${product.price}"></span>
+						</p>
+						<form action="/customer/add-to-cart" method="post">
+							<input type="hidden" name="productId"
+								th:value="${product.productId}">
+							<button type="submit" class="btn btn-dark w-100 add-to-cart-btn">Add
+								to Cart</button>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<!-- ✅ Message If No Products Available -->
+			<div th:if="${#lists.isEmpty(products)}" class="text-center mt-4">
+				<p class="alert alert-warning">No products available in this
+					category.</p>
+			</div>
+		</div>
+	</main>
+
+	<!-- ✅ Footer -->
+	<footer class="text-center mt-4">
+		<p>© 2025 Electronics Store</p>
+	</footer>
+
+	<!-- ✅ Bootstrap Script -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
